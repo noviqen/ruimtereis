@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ruimtereis van Lucas · bouw het boek na in Minecraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a1a;--card:#11163a;--card2:#161d4a;--line:#2a336e;--txt:#e9ecff;--dim:#a9b0dc;--gold:#ffd23f;--blue:#5fd3ff;--pink:#ff7ac6;--green:#7ee26a;--red:#ff5a4e}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:18px/1.6 Nunito,system-ui,sans-serif;overflow-x:hidden}
+#stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
+a{color:var(--blue)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.px{font-family:Silkscreen,monospace;font-weight:700;letter-spacing:.5px;line-height:1.15}
+h2{font-size:30px;margin:0 0 14px;color:var(--gold)}
+h3{font-size:20px;margin:0 0 8px}
+header{padding:70px 0 40px;text-align:center}
+header h1{font-size:clamp(36px,7vw,72px);margin:0;color:#fff;text-shadow:4px 4px 0 #3b2bd6,8px 8px 0 #00000080}
+header p{font-size:21px;color:var(--dim);max-width:700px;margin:18px auto 30px}
+.btn{display:inline-flex;gap:10px;align-items:center;font-family:Silkscreen,monospace;font-size:20px;background:var(--green);color:#082b05;padding:16px 26px;text-decoration:none;border:0;box-shadow:inset -4px -4px 0 #3c9a2f,inset 4px 4px 0 #b9ffad,0 6px 0 #1d4d16;cursor:pointer}
+.btn:active{transform:translateY(4px);box-shadow:inset -4px -4px 0 #3c9a2f,inset 4px 4px 0 #b9ffad,0 2px 0 #1d4d16}
+.small{font-size:15px;color:var(--dim)}
+nav{position:sticky;top:0;z-index:5;background:#070a1acc;backdrop-filter:blur(6px);border-bottom:2px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 20px}
+nav a{font-family:Silkscreen,monospace;font-size:14px;color:var(--txt);text-decoration:none;padding:6px 10px;border:2px solid var(--line);white-space:nowrap}
+nav a:hover{border-color:var(--gold);color:var(--gold)}
+section{padding:56px 0 10px}
+.card{background:var(--card);border:3px solid var(--line);padding:22px;box-shadow:6px 6px 0 #00000066}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.step{display:flex;gap:16px;align-items:flex-start}
+.num{flex:0 0 46px;height:46px;display:grid;place-items:center;background:var(--gold);color:#3a2a00;font-family:Silkscreen,monospace;font-size:24px;box-shadow:inset -4px -4px 0 #c99a10}
+.key{display:inline-block;font-family:Silkscreen,monospace;font-size:15px;background:#2a2f55;border:2px solid #555c95;border-bottom-width:4px;padding:0 8px;margin:0 2px}
+.knop{display:flex;gap:14px;align-items:center;background:var(--card2);border:2px solid var(--line);padding:12px 14px}
+.knop .ic{font-size:30px;width:44px;text-align:center}
+.knop b{font-family:Silkscreen,monospace;font-weight:400}
+.check li{list-style:none;margin:6px 0}
+.check li:before{content:"✔";color:var(--green);margin-right:10px;font-weight:900}
+ul.check{padding:0}
+.map{width:100%;max-width:560px;display:block;margin:0 auto;image-rendering:pixelated}
+.hst{display:grid;grid-template-columns:1.1fr 1fr;gap:22px;align-items:start}
+@media(max-width:800px){.hst{grid-template-columns:1fr}}
+.hst img{width:100%;border:3px solid var(--line);display:block}
+.tag{display:inline-block;font-size:13px;font-family:Silkscreen,monospace;background:#2a336e;padding:2px 8px;margin:0 6px 6px 0}
+.blokken{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.blok{display:flex;align-items:center;gap:6px;background:#0c1030;border:2px solid var(--line);padding:3px 8px 3px 4px;font-size:15px}
+.blok i{width:20px;height:20px;display:inline-block;box-shadow:inset -3px -3px 0 #00000055,inset 3px 3px 0 #ffffff44}
+.verhaal{border-left:5px solid var(--pink);padding:4px 0 4px 14px;color:#ffd9ef;font-style:italic;margin:10px 0}
+.tip{background:#0d2a1a;border:2px solid #1f6b3e;padding:10px 14px;margin-top:10px;font-size:16px}
+.tip b{color:var(--green)}
+.zelf{background:#2a1a3a;border:2px solid #6b3b8f;padding:10px 14px;margin-top:10px;font-size:16px}
+.zelf b{color:var(--pink)}
+code,.cmd{font-family:ui-monospace,Consolas,monospace;background:#0a0d24;border:2px solid var(--line);padding:2px 6px;font-size:15px;color:#bfe9ff}
+.cmd{display:block;padding:10px 12px;margin:6px 0;white-space:pre-wrap;word-break:break-word;cursor:pointer;position:relative}
+.cmd:hover{border-color:var(--blue)}
+.cmd:after{content:"klik = kopiëren";position:absolute;right:8px;top:-11px;font-size:11px;background:var(--bg);padding:0 6px;color:var(--dim);font-family:Nunito}
+.cmd.ok:after{content:"gekopieerd!";color:var(--green)}
+/* vormen-maker */
+.maker{display:grid;grid-template-columns:300px 1fr;gap:20px}
+@media(max-width:800px){.maker{grid-template-columns:1fr}}
+.maker label{display:block;font-size:15px;margin:10px 0 2px;color:var(--dim)}
+.maker input[type=range]{width:100%}
+.maker select{width:100%;font:inherit;background:var(--card2);color:var(--txt);border:2px solid var(--line);padding:6px}
+.val{font-family:Silkscreen,monospace;color:var(--gold)}
+#grid{width:100%;background:#050716;border:3px solid var(--line);image-rendering:pixelated}
+.laagknoppen{display:flex;gap:8px;align-items:center;margin-top:10px}
+.laagknoppen button{font-family:Silkscreen,monospace;font-size:16px;background:var(--card2);color:var(--txt);border:2px solid var(--line);padding:6px 14px;cursor:pointer}
+.laagknoppen button:hover{border-color:var(--gold)}
+footer{padding:60px 0 50px;text-align:center;color:var(--dim);font-size:15px}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<header class="wrap">
+  <div class="px" style="color:var(--pink);font-size:16px;margin-bottom:14px">Miljonairskind · De rampzalige ruimtereis</div>
+  <h1>Ruimtereis<br>van Lucas</h1>
+  <p>Een kant-en-klare bouwwereld voor <b>Minecraft Education</b>. Geen nacht, geen regen en geen monsters, en met knoppen ga je meteen naar de ruimte. De rest bouw jij!</p>
+  <a class="btn" href="Ruimtereis-van-Lucas.mcworld" download>⬇ Download de wereld</a>
+  <div class="small" style="margin-top:12px">Voor Minecraft Education 26.33 op Windows · klein bestand, minder dan 1 MB</div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#openen">1 · Openen</a><a href="#knoppen">2 · Knoppen</a><a href="#kaart">3 · Kaart</a><a href="#bouwen">4 · Bouwkaarten</a><a href="#vormen">5 · Vormen-maker</a><a href="#trucs">6 · Trucs</a>
+</div></nav>
+
+<section id="openen" class="wrap">
+  <h2>1 · Zo open je de wereld</h2>
+  <div class="grid g3">
+    <div class="card step"><div class="num">1</div><div><h3>Downloaden</h3>Klik hierboven op de groene knop. Je krijgt het bestand <code>Ruimtereis-van-Lucas.mcworld</code>.</div></div>
+    <div class="card step"><div class="num">2</div><div><h3>Dubbelklikken</h3>Dubbelklik op het bestand. Minecraft Education gaat open en zegt <i>"Importeren gelukt"</i>.</div></div>
+    <div class="card step"><div class="num">3</div><div><h3>Spelen</h3>Ga naar <b>Spelen → Mijn werelden</b> en kies <b>Ruimtereis van Lucas</b>. Klaar!</div></div>
+  </div>
+  <div class="tip" style="margin-top:16px"><b>Lukt dubbelklikken niet?</b> Open Minecraft Education, ga naar <b>Spelen</b> en klik op <b>Importeren</b> (onderaan bij je werelden). Kies dan het bestand uit je map <i>Downloads</i>.</div>
+</section>
+
+<section id="knoppen" class="wrap">
+  <h2>2 · De knoppenmuur</h2>
+  <p>Je begint op een plein met een gouden rand. Daar staat een witte muur met knoppen. <b>Druk op een knop</b> (rechtermuisknop) en het gebeurt meteen. Je hoeft niets te typen.</p>
+  <div class="grid g2">
+    <div class="knop"><span class="ic">☀️</span><div><b>Dag</b><br>Zon hoog in de lucht. Zo blijft het tot je een andere knop indrukt.</div></div>
+    <div class="knop"><span class="ic">🌅</span><div><b>Zonsondergang</b><br>Mooie oranje lucht, handig voor foto's.</div></div>
+    <div class="knop"><span class="ic">🌙</span><div><b>Nacht</b><br>Sterren en de maan, ook op aarde.</div></div>
+    <div class="knop"><span class="ic">🚀</span><div><b>Naar de ruimte</b><br>Je vliegt naar het ruimtestation, hoog boven een grote aarde. Daar is het altijd nacht met sterren.</div></div>
+    <div class="knop"><span class="ic">🪶</span><div><b>Zweven 1 minuut</b><br>Hoger springen en langzaam vallen, alsof je op de maan bent.</div></div>
+    <div class="knop"><span class="ic">🌍</span><div><b>Terug naar aarde</b> (in de ruimte)<br>Je gaat terug naar het plein en het wordt weer dag.</div></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3 style="color:var(--green)">Dit staat al goed ingesteld</h3>
+    <ul class="check">
+      <li>De tijd staat stil: het wordt niet vanzelf nacht.</li>
+      <li>Geen regen of onweer.</li>
+      <li>Geen monsters en geen dieren die rondlopen.</li>
+      <li>Creatief: alle blokken, vliegen (druk 2× op <span class="key">spatie</span>).</li>
+      <li>Geen valschade: vallen doet geen pijn.</li>
+      <li>Coördinaten staan aan, zodat je altijd weet waar je bent.</li>
+      <li>In de ruimte zweef je vanzelf een beetje.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="kaart" class="wrap">
+  <h2>3 · Kaart: waar bouw je wat?</h2>
+  <p>Het rode puntje is waar je begint. Rond het plein liggen gekleurde randen in het gras. Bij elke rand staat een bordje met wat daar komt. Binnen de rand mag je alles bouwen.</p>
+  <div class="grid g2" style="align-items:center">
+    <svg class="map" viewBox="0 0 220 220" aria-label="kaart van de wereld">
+      <rect width="220" height="220" fill="#3f7d2b"/>
+      <rect x="130" y="95" width="80" height="75" fill="#ffd23f22" stroke="#ffd23f" stroke-width="3"/>
+      <rect x="10" y="95" width="80" height="75" fill="#ffffff18" stroke="#c8c8c8" stroke-width="3"/>
+      <rect x="70" y="10" width="80" height="80" fill="#00000055" stroke="#111" stroke-width="3"/>
+      <rect x="102" y="102" width="16" height="16" fill="#cfcfcf" stroke="#ffd23f" stroke-width="2"/>
+      <rect x="103" y="116" width="14" height="3" fill="#fff"/>
+      <circle cx="110" cy="110" r="2.5" fill="#e33"/>
+      <text x="170" y="130" fill="#ffd23f" font-size="10" text-anchor="middle" font-family="Silkscreen">PRETPARK</text>
+      <text x="170" y="142" fill="#ffd23f" font-size="8" text-anchor="middle" font-family="Silkscreen">SCHATRIJK</text>
+      <text x="50" y="130" fill="#eee" font-size="9" text-anchor="middle" font-family="Silkscreen">PARKEER-</text>
+      <text x="50" y="142" fill="#eee" font-size="9" text-anchor="middle" font-family="Silkscreen">PLAATS</text>
+      <text x="110" y="45" fill="#fff" font-size="9" text-anchor="middle" font-family="Silkscreen">ONDERGRONDSE</text>
+      <text x="110" y="57" fill="#fff" font-size="9" text-anchor="middle" font-family="Silkscreen">HAL</text>
+      <text x="110" y="131" fill="#fff" font-size="7" text-anchor="middle" font-family="Silkscreen">START</text>
+      <text x="110" y="200" fill="#9fe8ff" font-size="8" text-anchor="middle" font-family="Silkscreen">ruimte: knop 🚀</text>
+      <text x="213" y="113" fill="#fff" font-size="9" font-family="Silkscreen">O</text>
+      <text x="2" y="113" fill="#fff" font-size="9" font-family="Silkscreen">W</text>
+      <text x="107" y="8" fill="#fff" font-size="8" font-family="Silkscreen">N</text>
+      <text x="108" y="218" fill="#fff" font-size="8" font-family="Silkscreen">Z</text>
+    </svg>
+    <div>
+      <div class="card" style="margin-bottom:12px"><span class="tag" style="background:#6b5a10">geel</span><b>Pretpark Schatrijk</b><br>Oost · X 20 tot 100, Z −15 tot 60</div>
+      <div class="card" style="margin-bottom:12px"><span class="tag">grijs</span><b>Parkeerplaats 't Reykeluyshuus</b><br>West · X −20 tot −100, Z −15 tot 60</div>
+      <div class="card" style="margin-bottom:12px"><span class="tag" style="background:#000">zwart</span><b>Ondergrondse hal + ruimtedrone</b><br>Noord · X −40 tot 40, Z −20 tot −100 · de grond is hier 40 blokken diep, dus graaf maar!</div>
+      <div class="card"><span class="tag" style="background:#1d5d7a">ruimte</span><b>Sterrenhotel Supernova</b><br>Druk op 🚀. Loop over de glazen brug naar het witte bouwplatform boven de aarde.</div>
+    </div>
+  </div>
+</section>
+
+<section id="bouwen" class="wrap">
+  <h2>4 · Bouwkaarten</h2>
+  <p>De plaatjes zijn <b>voorbeelden</b> om op ideeën te komen. Ze laten niet zien hoe het moet: jij bepaalt hoe het eruitziet. De roze stukjes komen uit het boek.</p>
+  <div id="kaarten" class="grid" style="gap:30px"></div>
+</section>
+
+<section id="vormen" class="wrap">
+  <h2>5 · Vormen-maker</h2>
+  <p>Ronde dingen bouwen is lastig in een wereld van blokjes. Kies hieronder een vorm en een maat, en je ziet <b>laag voor laag</b> welke blokjes je neerzet. Begin onderaan en tel de hokjes. Ieder hokje is één blok.</p>
+  <div class="card maker">
+    <div>
+      <label>Vorm</label>
+      <select id="vorm">
+        <option value="cirkel">Cirkel (vlak, bijv. reuzenrad)</option>
+        <option value="ring">Ring (bijv. ring van het hotel)</option>
+        <option value="bol">Bol (bijv. koepel of planeet)</option>
+        <option value="drone" selected>Ruimtedrone-romp (ei-vorm)</option>
+      </select>
+      <label>Breedte <span class="val" id="bv"></span></label><input type="range" id="b" min="5" max="41" step="2" value="21">
+      <label id="hl">Hoogte <span class="val" id="hv"></span></label><input type="range" id="h" min="3" max="25" step="2" value="7">
+      <label id="dl">Diepte <span class="val" id="dv"></span></label><input type="range" id="d" min="3" max="41" step="2" value="11">
+      <label><input type="checkbox" id="hol" checked> Alleen de buitenkant (hol)</label>
+      <div class="tip"><b>Tip:</b> zet eerst één blok in het midden en tel vanaf daar. Het middelste hokje is goud gekleurd.</div>
+    </div>
+    <div>
+      <canvas id="grid" width="600" height="600"></canvas>
+      <div class="laagknoppen"><button id="omlaag">▼ laag</button><span class="px" id="laag" style="flex:1;text-align:center"></span><button id="omhoog">laag ▲</button></div>
+      <div class="small" id="telling" style="text-align:center;margin-top:6px"></div>
+    </div>
+  </div>
+</section>
+
+<section id="trucs" class="wrap">
+  <h2>6 · Trucs voor snel bouwen</h2>
+  <p>In Minecraft Education kun je opdrachten typen. Druk op <span class="key">/</span>, plak de opdracht en druk op <span class="key">Enter</span>. Een <code>~</code> betekent "waar ik nu sta". Klik op een opdracht om hem te kopiëren.</p>
+  <div class="grid g2">
+    <div class="card"><h3>Grote vloer in 1 keer</h3>Een vloer van 21 × 21 blokken onder je voeten:<span class="cmd">/fill ~-10 ~-1 ~-10 ~10 ~-1 ~10 smooth_stone</span></div>
+    <div class="card"><h3>Holle doos (kamer)</h3>Muren, vloer en dak, binnen leeg. Heel handig voor de ondergrondse hal:<span class="cmd">/fill ~2 ~ ~2 ~20 ~8 ~20 white_concrete hollow</span></div>
+    <div class="card"><h3>Oeps, weghalen</h3>Maakt een stuk weer leeg (lucht). Wees voorzichtig!<span class="cmd">/fill ~-5 ~ ~-5 ~5 ~5 ~5 air</span></div>
+    <div class="card"><h3>Graven voor de hal</h3>Een gat van 30 × 30 en 12 diep onder je:<span class="cmd">/fill ~-15 ~-12 ~-15 ~15 ~-1 ~15 air</span></div>
+    <div class="card"><h3>Snel naar een plek</h3>Naar het ruimtestation, of terug naar het plein:<span class="cmd">/tp @s 0 281 1000</span><span class="cmd">/tp @s 0 -19 0</span></div>
+    <div class="card"><h3>Kopiëren en plakken</h3>Heb je een mooie auto gebouwd en wil je er twee? Gebruik het <b>constructieblok</b> (Structure Block) of <code>/clone</code>. Vraag even om hulp als je dit wilt proberen.</div>
+  </div>
+  <h2 style="margin-top:40px">Speciaal in Minecraft Education</h2>
+  <div class="grid g2">
+    <div class="card"><h3>📋 Scorebord met een schoolbord</h3>Zoek in je blokken naar <b>Bord</b> (Board). Daarop kun je tekst schrijven, zoals het scorebord uit het boek: <i>DEX 01, JOACHIM 00</i> enzovoort.</div>
+    <div class="card"><h3>🧑 Valentino laten praten</h3>Zet een <b>NPC</b> neer (zoek op "NPC" bij de spawn-eieren). Geef hem de naam Valentino en een tekst. Je kunt zelfs een knop geven die je naar de ruimte stuurt met <code>/tp @initiator 0 281 1000</code>. Lukt het bewerken niet? Typ eerst <code>/wb</code>.</div>
+    <div class="card"><h3>📷 Foto's maken</h3>Met de <b>Camera</b> maak je foto's van je bouwwerken. In het <b>Portfolio</b> kun je ze bewaren en laten zien.</div>
+    <div class="card"><h3>💡 Licht in de ruimte</h3>In de ruimte is het donker. Gebruik <b>zeelantaarns</b>, <b>gloeisteen</b> of <b>lantaarns</b>, dan zie je je bouwwerk goed.</div>
+  </div>
+</section>
+
+<footer>
+  Gemaakt voor Lucas · gebaseerd op het boek <i>Miljonairskind: De rampzalige ruimtereis</i> van Ilona de Lange<br>
+  Dit is geen officiële Minecraft-site. Minecraft is van Mojang/Microsoft.
+</footer>
+
+<script>
+// ---------- sterren ----------
+const sc=document.getElementById('stars'),sx=sc.getContext('2d');let ST=[];
+function rs(){sc.width=innerWidth;sc.height=innerHeight;ST=Array.from({length:Math.round(innerWidth*innerHeight/5000)},()=>({x:Math.random()*sc.width,y:Math.random()*sc.height,s:Math.random()<.1?3:2,p:Math.random()*6}))}
+function ds(t){sx.clearRect(0,0,sc.width,sc.height);for(const s of ST){sx.globalAlpha=.35+.65*Math.abs(Math.sin(t/1400+s.p));sx.fillStyle='#fff';sx.fillRect(s.x|0,s.y|0,s.s,s.s)}requestAnimationFrame(ds)}
+addEventListener('resize',rs);rs();requestAnimationFrame(ds);
+
+// ---------- kopiëren ----------
+document.querySelectorAll('.cmd').forEach(el=>el.addEventListener('click',()=>{navigator.clipboard.writeText(el.textContent.trim());el.classList.add('ok');setTimeout(()=>el.classList.remove('ok'),1500)}));
+
+// ---------- bouwkaarten ----------
+const KL={goud:'#f6d03d',kwarts:'#ece6de',wit:'#e8eaea',zwart:'#1a1a1e',grijs:'#8a8a8a',lichtgrijs:'#b8b8b8',paars:'#6e28a0',roze:'#f078aa',rood:'#b02e26',blauw:'#355ab4',lichtblauw:'#5fd3ff',groen:'#5f8a2f',bruin:'#a2824e',baksteen:'#964838',glas:'#bfe6ff',zee:'#a6f0e6',gloei:'#ffd27a',ijzer:'#d8d8dc',beton:'#787a7c',zand:'#d6c48a'};
+const KAARTEN=[
+ {t:'Pretpark Schatrijk',img:'img/shot1.jpg',plek:'Geel vak · oost',
+  verhaal:'Zilver en Lennon wonen in Pretpark Schatrijk. Er staat een grote gouden postbus die altijd vol zit met fanmail voor DoeKoe, de mascotte van het park. Daar komt ook de geheimzinnige gouden uitnodiging binnen.',
+  bouw:['De grote gouden ingangspoort met de naam erop','De gouden postbus (met witte "brieven" erop)','Een beeld van DoeKoe, de mascotte','Het huis van de families','Attracties: reuzenrad, achtbaan, kraampjes'],
+  blokken:[['goud','Goudblok'],['kwarts','Kwartsblok'],['rood','Rode wol'],['ijzer','IJzerblok'],['bruin','Eikenhouten planken'],['gloei','Gloeisteen']],
+  tip:'Bouw eerst de poort. Dan zie je meteen waar de ingang is. Het reuzenrad maak je met de <b>Vormen-maker</b> (cirkel, breedte 25).',
+  zelf:'Hoe DoeKoe eruitziet staat niet in het stukje dat wij lazen. Is het een koe? Bedenk het zelf of kijk in het boek!'},
+ {t:"Parkeerplaats 't Reykeluyshuus",img:'img/shot2.jpg',plek:'Grijs vak · west',
+  verhaal:'Op zaterdagochtend om 7 uur komen alle gasten aan: Rijk in zijn paarse limousine, Waldo en William in een felroze helikopter, en vlogger Valentino die uit een tank klimt! Daarna gaat iedereen geblinddoekt mee in een glitterbus.',
+  bouw:["Het gebouw 't Reykeluyshuus (een trapgevel staat mooi)",'De paarse limousine van Rijk','De roze helikopter','De tank van Valentino','De grote glitterbus'],
+  blokken:[['baksteen','Bakstenen'],['zwart','Zwart beton'],['paars','Paarse wol'],['roze','Roze wol'],['groen','Groene wol'],['wit','Wit beton']],
+  tip:'Lijnen op de parkeerplaats: leg een vloer van grijs beton en maak strepen met <b>wit beton</b>. Glitter maak je met een paar <b>roze glas</b>-blokjes en gloeisteen rond de bus.',
+  zelf:'Zet de gasten neer als NPC met hun naam: Zilver, Lennon, Joachim, Rijk, Chanel, Tina Aprilla, Yassim, Dex, Waldo en William.'},
+ {t:'De ondergrondse hal',img:'img/shot3.jpg',plek:'Zwart vak · noord · graaf 40 diep',
+  verhaal:'Als de blinddoeken af gaan, staan ze in een enorme donkere hal met een kale betonnen vloer. Het lijkt wel een schuilkelder! Er komt een groot scorebord met lampjes tevoorschijn. Kapitein Dunja en piloot Esmee stellen zich voor.',
+  bouw:['Een grote hal onder de grond (gebruik de holle-doos-truc)','Het scorebord met lampjes eromheen','De ruimtedrone die klaarstaat om te vertrekken','Een houten kist waar Valentino op staat'],
+  blokken:[['beton','Grijs beton'],['zwart','Zwart beton'],['gloei','Redstonelamp'],['wit','Wit beton'],['glas','Glas'],['zee','Zeelantaarn']],
+  tip:'De ruimtedrone is ei-vormig. Gebruik de <b>Vormen-maker</b> met "Ruimtedrone-romp" (21 breed, 7 hoog, 11 diep). Zeelantaarns aan de onderkant lijken op blauwe motoren.',
+  zelf:'Het scorebord: gebruik een <b>Bord</b> (Education) met de namen. In het boek staat Dex als enige op 1 punt!'},
+ {t:'Sterrenhotel Supernova',img:'img/shot4.jpg',plek:'Ruimte · knop 🚀',
+  verhaal:'Het is geen gewone raket maar een luxe ruimtedrone, en de reis gaat naar Sterrenhotel Supernova. Zilver en Lennon zijn misschien wel de eerste kinderen ooit in de ruimte!',
+  bouw:['Een hotel dat in de ruimte zweeft','Een grote ring met ramen eromheen','Een koepel van glas bovenop','Zonnepanelen voor stroom','Een landingsplek voor de ruimtedrone'],
+  blokken:[['wit','Wit beton'],['ijzer','IJzerblok'],['glas','Glas'],['lichtblauw','Lichtblauw glas'],['blauw','Blauw beton'],['zee','Zeelantaarn']],
+  tip:'Begin op het witte platform aan het eind van de glazen brug. De ring maak je met de <b>Vormen-maker</b> ("Ring", breedte 41). Bouw in de ruimte van boven naar beneden, dan val je minder.',
+  zelf:'Hoe het hotel eruitziet weten we niet, dat mag jij helemaal zelf bedenken.'},
+ {t:'De rampzalige ruimtereis',img:'img/shot5.jpg',plek:'Ruimte · in je ruimtedrone',
+  verhaal:'Dan gaat het mis. Het schip raakt beschadigd en de bemanning is verdwenen. Zilver en Lennon moeten alles op alles zetten om veilig terug te komen op aarde.',
+  bouw:['De binnenkant van de ruimtedrone met stoelen','Een gat in de wand waar je de sterren door ziet','Rode noodlampen','Een cockpit met lege stoelen voor de kapitein en de piloot','Een knop om terug naar huis te gaan'],
+  blokken:[['ijzer','IJzerblok'],['wit','Wit beton'],['rood','Redstonelamp'],['blauw','Blauwe wol'],['glas','Glas'],['zwart','Zwart beton']],
+  tip:'Maak het spannend: zet een <b>knop</b> op een <b>commandoblok</b> met de opdracht <code>tp @p 0 -19 0</code>. Zo is "repareren en terugvliegen" echt een knop in je schip.',
+  zelf:'Hoe het verhaal afloopt? Lees het boek en bouw het einde zelf!'}
+];
+document.getElementById('kaarten').innerHTML=KAARTEN.map((k,i)=>`
+ <div class="card hst">
+  <div><img src="${k.img}" alt="voorbeeld ${k.t}" loading="lazy"><div class="small" style="margin-top:4px">Voorbeeld · jouw versie mag er heel anders uitzien</div></div>
+  <div>
+   <span class="tag" style="background:var(--gold);color:#3a2a00">Hoofdstuk ${i+1}</span><span class="tag">${k.plek}</span>
+   <h3 style="font-size:24px;color:#fff">${k.t}</h3>
+   <div class="verhaal">${k.verhaal}</div>
+   <b>Wat kun je bouwen?</b>
+   <ul style="margin:4px 0 6px;padding-left:22px">${k.bouw.map(b=>`<li>${b}</li>`).join('')}</ul>
+   <b>Handige blokken</b>
+   <div class="blokken">${k.blokken.map(([c,n])=>`<span class="blok"><i style="background:${KL[c]}"></i>${n}</span>`).join('')}</div>
+   <div class="tip"><b>Tip:</b> ${k.tip}</div>
+   <div class="zelf"><b>Zelf bedenken:</b> ${k.zelf}</div>
+  </div>
+ </div>`).join('');
+
+// ---------- vormen-maker ----------
+const $=id=>document.getElementById(id);
+const cv=$('grid'),g=cv.getContext('2d');let laag=0;
+const PRE={cirkel:[25,1,25],ring:[41,1,41],bol:[15,15,15],drone:[21,7,11]};
+function inShape(v,x,y,z,B,Hh,D){ // x,y,z: offsets van midden
+ const rx=B/2,ry=Hh/2,rz=D/2;
+ if(v==='cirkel'||v==='ring'){const d=(x*x)/(rx*rx)+(z*z)/(rz*rz);return d<=1}
+ return (x*x)/(rx*rx)+(y*y)/(ry*ry)+(z*z)/(rz*rz)<=1;
+}
+function cells(){
+ const v=$('vorm').value,B=+$('b').value,D=(v==='cirkel'||v==='ring')?B:+$('d').value,Hh=(v==='cirkel'||v==='ring')?1:(v==='bol'?B:+$('h').value);
+ const hol=$('hol').checked||v==='ring';
+ const hx=(B-1)/2,hz=(D-1)/2,hy=(Hh-1)/2;
+ const fill=(x,y,z)=>inShape(v,x,y,z,B,Hh,D);
+ const layers=[];
+ for(let yi=0;yi<Hh;yi++){const y=yi-hy;const L=[];
+  for(let zi=0;zi<D;zi++){const row=[];for(let xi=0;xi<B;xi++){const x=xi-hx,z=zi-hz;let f=fill(x,y,z);
+   if(f&&hol){const nb=[[1,0,0],[-1,0,0],[0,0,1],[0,0,-1]].concat(Hh>1?[[0,1,0],[0,-1,0]]:[]);f=nb.some(([a,b,c])=>!fill(x+a,y+b,z+c));
+    if(v==='ring'){f=fill(x,y,z)&&!inShape('cirkel',x,y,z,B-4,1,D-4)}}
+   row.push(f)}L.push(row)}layers.push(L)}
+ return {layers,B,D,Hh};
+}
+function draw(){
+ const v=$('vorm').value,flat=(v==='cirkel'||v==='ring');
+ $('hl').style.display=$('h').style.display=flat||v==='bol'?'none':'';
+ $('dl').style.display=$('d').style.display=flat||v==='bol'?'none':'';
+ $('bv').textContent=$('b').value;$('hv').textContent=$('h').value;$('dv').textContent=$('d').value;
+ const {layers,B,D,Hh}=cells();laag=Math.max(0,Math.min(laag,Hh-1));
+ const L=layers[laag],cs=Math.floor(Math.min(600/B,600/D));cv.width=B*cs;cv.height=D*cs;
+ g.fillStyle='#050716';g.fillRect(0,0,cv.width,cv.height);
+ let n=0;const below=laag>0?layers[laag-1]:null;
+ for(let z=0;z<D;z++)for(let x=0;x<B;x++){
+  const mid=(x===(B-1)/2&&z===(D-1)/2);
+  if(below&&below[z][x]&&!L[z][x]){g.fillStyle='#1b2350';g.fillRect(x*cs+1,z*cs+1,cs-2,cs-2)}
+  if(L[z][x]){n++;g.fillStyle=mid?'#f6d03d':'#e9ecff';g.fillRect(x*cs+1,z*cs+1,cs-2,cs-2);g.fillStyle='#00000030';g.fillRect(x*cs+cs-4,z*cs+1,3,cs-2);g.fillRect(x*cs+1,z*cs+cs-4,cs-2,3)}
+  else if(mid){g.strokeStyle='#f6d03d';g.lineWidth=2;g.strokeRect(x*cs+3,z*cs+3,cs-6,cs-6)}
+ }
+ g.strokeStyle='#ffffff14';g.lineWidth=1;for(let i=0;i<=B;i++){g.beginPath();g.moveTo(i*cs+.5,0);g.lineTo(i*cs+.5,cv.height);g.stroke()}for(let i=0;i<=D;i++){g.beginPath();g.moveTo(0,i*cs+.5);g.lineTo(cv.width,i*cs+.5);g.stroke()}
+ $('laag').textContent=`laag ${laag+1} van ${Hh}`;$('telling').textContent=`${n} blokken in deze laag · donkerblauw = de laag eronder`;
+ $('omlaag').disabled=laag===0;$('omhoog').disabled=laag===Hh-1;
+}
+$('vorm').addEventListener('change',()=>{const p=PRE[$('vorm').value];$('b').value=p[0];$('h').value=p[1];$('d').value=p[2];laag=0;draw()});
+['b','h','d','hol'].forEach(id=>$(id).addEventListener('input',draw));
+$('omlaag').onclick=()=>{laag--;draw()};$('omhoog').onclick=()=>{laag++;draw()};
+draw();
+</script>
+</body>
+</html>
