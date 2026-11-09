@@ -72,6 +72,22 @@ code,.cmd{font-family:ui-monospace,Consolas,monospace;background:#0a0d24;border:
 .laagknoppen button{font-family:Silkscreen,monospace;font-size:16px;background:var(--card2);color:var(--txt);border:2px solid var(--line);padding:6px 14px;cursor:pointer}
 .laagknoppen button:hover{border-color:var(--gold)}
 footer{padding:60px 0 50px;text-align:center;color:var(--dim);font-size:15px}
+[data-edit]{white-space:pre-line}
+body.bewerk [data-edit]{outline:2px dashed var(--gold);outline-offset:3px;background:#ffd23f14;cursor:text;min-height:1.4em;display:block}
+body.bewerk span[data-edit]{display:inline-block;min-width:60px}
+body.bewerk [data-edit]:focus{outline-style:solid;background:#ffd23f26}
+#editknop{position:fixed;right:16px;bottom:16px;z-index:20;font-family:Silkscreen,monospace;font-size:15px;background:var(--gold);color:#3a2a00;border:0;padding:12px 16px;cursor:pointer;box-shadow:inset -4px -4px 0 #c99a10,0 4px 0 #6b5208}
+#editbalk{display:none;position:fixed;left:0;right:0;bottom:0;z-index:21;background:#1a1405;border-top:3px solid var(--gold);padding:12px 16px;gap:10px;align-items:center;flex-wrap:wrap}
+body.bewerk #editbalk{display:flex} body.bewerk #editknop{display:none}
+#editbalk button{font-family:Silkscreen,monospace;font-size:15px;border:0;padding:10px 16px;cursor:pointer}
+#editbalk .opslaan{background:var(--green);color:#082b05} #editbalk .stop{background:#444;color:#fff}
+#editbalk span{flex:1;min-width:200px;font-size:15px}
+#codevak{display:none;position:fixed;inset:0;z-index:30;background:#000a;place-items:center}
+#codevak.open{display:grid}
+#codevak .card{max-width:360px;width:90%}
+#codevak input{font:inherit;font-size:24px;width:100%;padding:8px;margin:10px 0;background:#0a0d24;color:#fff;border:2px solid var(--line);letter-spacing:6px;text-align:center}
+#codevak button{font-family:Silkscreen,monospace;font-size:15px;border:0;padding:10px 16px;cursor:pointer;margin-right:6px}
+.verbeter{background:#2a2305;border:3px solid var(--gold)}
 </style>
 </head>
 <body>
@@ -141,13 +157,18 @@ footer{padding:60px 0 50px;text-align:center;color:var(--dim);font-size:15px}
     <div class="card"><span class="tag">2</span><b>Parkeerplaats 't Reykeluyshuus</b><br>Iets verderop, aan het eind van een weg.</div>
     <div class="card"><span class="tag" style="background:#000">3</span><b>Ondergrondse hal</b><br>Graaf een gat (de grond is 40 diep) en bouw de hal eronder.</div>
     <div class="card"><span class="tag" style="background:#1d5d7a">4</span><b>Sterrenhotel Supernova</b><br>Hoog in de lucht, bij het ruimteplatform (knop 🚀).</div>
-    <div class="card"><span class="tag" style="background:#7a1d1d">5</span><b>De ramp</b><br>Het kapotte schip, naast je hotel in de ruimte.</div>
+    <div class="card"><span class="tag" style="background:#7a1d1d">5</span><b>De ramp</b><br>Meteorieten en het gat in de noodsluis, bij je hotel in de ruimte.</div>
   </div>
 </section>
 
 <section id="bouwen" class="wrap">
   <h2>4 · Ideeën per hoofdstuk</h2>
   <p>De plaatjes zijn <b>voorbeelden</b> om op ideeën te komen. Ze laten niet zien hoe het moet: jij bepaalt hoe het eruitziet. De roze stukjes komen uit het boek.</p>
+  <div class="card verbeter" style="margin-bottom:26px">
+    <h3 style="color:var(--gold)">✏️ Zo staat het écht in het boek</h3>
+    <p class="small" style="margin:0 0 8px">Klopt er iets niet op deze site, of komt iets uit een ander boek? Lucas schrijft hier wat er anders is. Klik rechtsonder op <b>Teksten verbeteren</b>: dan kun je ook alle verhaalteksten hieronder aanpassen.</p>
+    <div data-edit="verbeteringen" data-leeg="Nog niets verbeterd. Klik rechtsonder op Teksten verbeteren om hier te schrijven."></div>
+  </div>
   <div id="kaarten" class="grid" style="gap:30px"></div>
 </section>
 
@@ -231,14 +252,14 @@ player.onChat("titel", function () {
   <div class="card" style="margin-bottom:18px">
     <h3 style="color:var(--gold)">📚 Over het boek</h3>
     <div class="grid g2" style="gap:6px 24px">
-      <div><b>Titel:</b> Miljonairskind – De rampzalige ruimtereis</div>
-      <div><b>Schrijver:</b> Ilona de Lange</div>
-      <div><b>Tekeningen:</b> Micky Dirkzwager</div>
-      <div><b>Verschenen:</b> 2023, deel 5 van de serie (los te lezen)</div>
-      <div><b>Soort boek:</b> spannend en grappig avonturenboek, 9 tot 12 jaar</div>
-      <div><b>Hoofdpersonen:</b> Zilver (de "ik" in het boek) en Lennon. Hun ouders runnen samen het pretpark</div>
-      <div><b>Waar:</b> Pretpark Schatrijk, de ruimte, Sterrenhotel Supernova</div>
-      <div><b>Wanneer:</b> in de herfstvakantie</div>
+      <div><b>Titel:</b> <span data-edit="boek_titel">Miljonairskind – De rampzalige ruimtereis</span></div>
+      <div><b>Schrijver:</b> <span data-edit="boek_schrijver">Ilona de Lange</span></div>
+      <div><b>Tekeningen:</b> <span data-edit="boek_tekeningen">Micky Dirkzwager</span></div>
+      <div><b>Verschenen:</b> <span data-edit="boek_verschenen">2023, deel 5 van de serie (los te lezen)</span></div>
+      <div><b>Soort boek:</b> <span data-edit="boek_soort">spannend en grappig avonturenboek, 9 tot 12 jaar</span></div>
+      <div><b>Hoofdpersonen:</b> <span data-edit="boek_personen">Zilver (de "ik" in het boek) en Lennon. Hun ouders runnen samen het pretpark</span></div>
+      <div><b>Waar:</b> <span data-edit="boek_waar">Pretpark Schatrijk, de ruimte, Sterrenhotel Supernova</span></div>
+      <div><b>Wanneer:</b> <span data-edit="boek_wanneer">in de herfstvakantie</span></div>
     </div>
     <p style="margin:12px 0 0">De andere delen: 1 Het geheim van het onderhuis · 2 De geheime verdieping · 3 Het verborgen eiland · 4 Paniek in het pretpark · <b>5 De rampzalige ruimtereis</b> · 6 Gevaarlijk beroemd</p>
     <p class="small" style="margin:8px 0 0">Wat je zelf in je verslag schrijft: wat vond jij het spannendste stuk, hoe loopt het af, en zou je het aanraden? Dat weet alleen jij!</p>
@@ -310,14 +331,14 @@ document.getElementById('kaarten').innerHTML=KAARTEN.map((k,i)=>`
   <div><img src="${k.img}" alt="voorbeeld ${k.t}" loading="lazy"><div class="small" style="margin-top:4px">Voorbeeld · jouw versie mag er heel anders uitzien</div></div>
   <div>
    <span class="tag" style="background:var(--gold);color:#3a2a00">Hoofdstuk ${i+1}</span><span class="tag">${k.plek}</span>
-   <h3 style="font-size:24px;color:#fff">${k.t}</h3>
-   <div class="verhaal">${k.verhaal}</div>
+   <h3 style="font-size:24px;color:#fff" data-edit="h${i+1}_titel">${k.t}</h3>
+   <div class="verhaal" data-edit="h${i+1}_verhaal">${k.verhaal}</div>
    <b>Wat kun je bouwen?</b>
-   <ul style="margin:4px 0 6px;padding-left:22px">${k.bouw.map(b=>`<li>${b}</li>`).join('')}</ul>
+   <div style="margin:4px 0 8px" data-edit="h${i+1}_bouw">${k.bouw.map(b=>'• '+b).join('\n')}</div>
    <b>Handige blokken</b>
    <div class="blokken">${k.blokken.map(([c,n])=>`<span class="blok"><i style="background:${KL[c]}"></i>${n}</span>`).join('')}</div>
    <div class="tip"><b>Tip:</b> ${k.tip}</div>
-   <div class="zelf"><b>Zelf bedenken:</b> ${k.zelf}</div>
+   <div class="zelf"><b>Zelf bedenken:</b> <span data-edit="h${i+1}_zelf">${k.zelf}</span></div>
   </div>
  </div>`).join('');
 
@@ -366,6 +387,48 @@ $('vorm').addEventListener('change',()=>{const p=PRE[$('vorm').value];$('b').val
 ['b','h','d','hol'].forEach(id=>$(id).addEventListener('input',draw));
 $('omlaag').onclick=()=>{laag--;draw()};$('omhoog').onclick=()=>{laag++;draw()};
 draw();
+</script>
+<button id="editknop">✏️ Teksten verbeteren</button>
+<div id="editbalk"><span>✏️ Klik op een geel omlijnde tekst en typ. Klaar? Druk op Opslaan, dan ziet iedereen het.</span><button class="opslaan" id="opslaan">Opslaan</button><button class="stop" id="stoppen">Stoppen</button></div>
+<div id="codevak"><div class="card"><h3>Geheime code</h3><div class="small">Alleen Lucas (en papa) kunnen de teksten veranderen.</div><input id="codein" inputmode="numeric" maxlength="8" autocomplete="off"><div id="codefout" class="small" style="color:var(--red);min-height:1.4em"></div><button class="btn" id="codeok" style="font-size:15px;padding:10px 16px">OK</button><button id="codeweg" style="background:#444;color:#fff">Annuleren</button></div></div>
+<script>
+(()=>{
+ const API='https://ruimtereis-teksten.noviqen-info.workers.dev';
+ const els=()=>[...document.querySelectorAll('[data-edit]')];
+ const leeg=el=>{if(el.dataset.leeg&&!el.textContent.trim()){el.textContent=el.dataset.leeg;el.classList.add('isleeg');el.style.opacity=.6}};
+ let opgeslagen={};
+ fetch(API+'/teksten',{cache:'no-store'}).then(r=>r.json()).then(d=>{opgeslagen=d||{};
+   els().forEach(el=>{const v=opgeslagen[el.dataset.edit];if(typeof v==='string'){el.textContent=v;el.classList.remove('isleeg');el.style.opacity=''}});
+   els().forEach(leeg);
+ }).catch(()=>els().forEach(leeg));
+ const $=id=>document.getElementById(id);
+ function aan(){document.body.classList.add('bewerk');els().forEach(el=>{
+   if(el.classList.contains('isleeg')){el.textContent='';el.classList.remove('isleeg');el.style.opacity=''}
+   el.dataset.oud=el.innerText;
+   try{el.contentEditable='plaintext-only'}catch(e){el.contentEditable='true'}
+   if(el.contentEditable!=='plaintext-only')el.contentEditable='true';
+ })}
+ function uit(){document.body.classList.remove('bewerk');els().forEach(el=>{el.removeAttribute('contenteditable');leeg(el)})}
+ $('editknop').onclick=()=>{const c=localStorage.getItem('rr_code');if(c){check(c,true)}else{$('codevak').classList.add('open');$('codein').value='';$('codefout').textContent='';$('codein').focus()}};
+ $('codeweg').onclick=()=>$('codevak').classList.remove('open');
+ $('codein').addEventListener('keydown',e=>{if(e.key==='Enter')$('codeok').click()});
+ $('codeok').onclick=()=>check($('codein').value.trim(),false);
+ function check(c,stil){fetch(API+'/check',{method:'POST',headers:{'X-Code':c}}).then(r=>{
+   if(r.ok){localStorage.setItem('rr_code',c);$('codevak').classList.remove('open');aan()}
+   else{localStorage.removeItem('rr_code');$('codevak').classList.add('open');$('codefout').textContent=stil?'':'Die code klopt niet.';}
+ }).catch(()=>{$('codefout').textContent='Geen internet? Probeer het nog eens.'})}
+ $('stoppen').onclick=()=>{els().forEach(el=>{if(el.innerText!==el.dataset.oud)el.innerText=el.dataset.oud});uit()};
+ $('opslaan').onclick=()=>{
+   const data={...opgeslagen};
+   els().forEach(el=>{const t=el.innerText.replace(/\n{3,}/g,'\n\n').trim();if(t!==el.dataset.oud.trim())data[el.dataset.edit]=t});
+   const b=$('opslaan');b.textContent='Bezig...';
+   fetch(API+'/teksten',{method:'PUT',headers:{'X-Code':localStorage.getItem('rr_code')||'','Content-Type':'application/json'},body:JSON.stringify(data)})
+    .then(r=>r.json().then(j=>({ok:r.ok,j}))).then(({ok,j})=>{
+      if(ok){opgeslagen=data;b.textContent='Opgeslagen ✔';setTimeout(()=>{b.textContent='Opslaan';uit()},1200)}
+      else{b.textContent='Opslaan';alert('Opslaan lukte niet: '+(j.error||'onbekend'))}
+    }).catch(()=>{b.textContent='Opslaan';alert('Opslaan lukte niet. Heb je internet?')});
+ };
+})();
 </script>
 </body>
 </html>
